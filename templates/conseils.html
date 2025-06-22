@@ -1,1 +1,72 @@
-<h1>Page des conseils Over/Under 2.5</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Conseils sur les buts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        nav {
+            background-color: #004ea2;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 30px;
+            text-align: center;
+        }
+        .match {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px auto;
+            max-width: 500px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Conseils sur les buts ⚽</h1>
+        <p>Plus ou Moins de 2.5 buts - Mise à jour quotidienne</p>
+    </header>
+
+    <nav>
+        <a href="/">Accueil</a>
+        <a href="/conseils">Conseils</a>
+        <a href="/anomalies">Matchs arrangés</a>
+        <a href="/scores">Scores exacts</a>
+    </nav>
+
+    <main>
+        <h2>📊 Conseils du jour</h2>
+        {% for c in conseils %}
+        <div class="match">
+            <strong>➡ Match :</strong> {{ c.match }}<br>
+            <strong>✅ Conseil :</strong> {{ c.conseil }}<br>
+            <strong>💬 Justification :</strong> {{ c.raison }}
+        </div>
+        {% endfor %}
+    </main>
+</body>
+</html>
