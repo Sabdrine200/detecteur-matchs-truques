@@ -1,22 +1,22 @@
 from flask import Flask, render_template
 
-application = Flask(__name__)
+app = Flask(__name__)
 
-@application.route('/')
+@app.route("/")
 def accueil():
-    return render_template('home.html')
+    return render_template("index.html")
 
-@application.route('/conseils')
+@app.route("/conseils")
 def conseils():
-    return render_template('conseils.html')
+    return render_template("conseils.html")
 
-@application.route('/anomalies')
+@app.route("/anomalies")
 def anomalies():
-    return render_template('anomalies.html')
+    return render_template("anomalies.html")
 
-@application.route('/scores')
+@app.route("/scores")
 def scores():
-    return render_template('scores.html')
+    return render_template("scores.html")
 
-if __name__ == '__main__':
-    application.run()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
