@@ -1,115 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
     <meta charset="UTF-8">
-    <title>Détecteur de matchs truqués</title>
-    <style>
-        body<div class="footer-nav">
-    <a href="/">🏠 Accueil</a>
-    <a href="/conseils">📊 Conseils</a>
-    <a href="/anomalies">🚨 Anomalies</a>
-    <a href="/scores">🎯 Scores</a>
-</div> {
-            font-family: Arial, sans-serif;
-            background-color: #f2f4f8;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #007BFF;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        nav {
-            background-color: #004ea2;
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        main {
-            padding: 30px;
-            text-align: center;
-        }
-        footer {
-            background-color: #007BFF;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <title>Accueil - Détecteur de matchs truqués</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
-        <h1>Bienvenue sur le site détecteur de matchs truqués ⚽</h1>
-        <p>Analyse automatique des anomalies, conseils sur les buts et scores exacts</p>
+        <h1>🎯 Bienvenue sur le détecteur de matchs truqués</h1>
+        <p>Analyse automatique des matchs suspects et des scores exacts les plus probables.</p>
     </header>
 
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/conseils">Conseils</a>
-        <a href="/anomalies">Matchs arrangés</a>
-        <a href="/scores">Scores exacts</a>
-    </nav>
-
     <main>
-    <h2>Bienvenue sur le site détecteur de matchs truqués !</h2>
-    <p>Ce site vous aide à détecter les comportements suspects dans les matchs de football.</p>
-
-    
-    </main>
-        <h2>Bienvenue !</h2>
-        <p>Ce site analyse chaque jour les cotes des matchs pour détecter :</p>
-        <ul style="list-style-type: none; padding-left: 0;">
-            <li>📌 Matchs avec cotes suspectes</li>
-            <li>📌 Conseils Over/Under (plus ou moins 2.5 buts)</li>
-            <li>📌 Scores exacts prédits par plusieurs sites</li>
-        </ul>
-        <p>🕒 Mise à jour automatique tous les jours</p>
-    </main>
-
-    <footer>
-        &copy; 2025 - Site développé par Sandrine200
-    </footer><footer style="background-color:#e0e0e0; padding: 20px; text-align: center; position: relative;">
-        <h3>Navigation rapide</h3>
-        <div style="display: flex; justify-content: center; gap: 30px; margin-top: 10px; flex-wrap: wrap;">
-            <a href="/" style="text-decoration: none; color: black;">
-                <div>
-                    <div style="font-size: 30px;">🏠</div>
-                    <div>Accueil</div>
-                </div>
-            </a>
-            <a href="/conseils" style="text-decoration: none; color: black;">
-                <div>
-                    <div style="font-size: 30px;">📊</div>
-                    <div>Conseils</div>
-                </div>
-            </a>
-            <a href="/anomalies" style="text-decoration: none; color: black;">
-                <div>
-                    <div style="font-size: 30px;">🚨</div>
-                    <div>Matchs arrangés</div>
-                </div>
-            </a>
-            <a href="/scores" style="text-decoration: none; color: black;">
-                <div>
-                    <div style="font-size: 30px;">🎯</div>
-                    <div>Scores exacts</div>
-                </div>
-            </a>
+        <div class="card">
+            <p>🔍 Notre système détecte les matchs suspects à partir des écarts de cotes sur des dizaines de sites.</p>
+            <p>📊 Il génère des conseils sur +2.5 / -2.5 buts selon les comportements anormaux.</p>
+            <p>🎯 Il affiche aussi les scores exacts quand plusieurs sites donnent la même prédiction.</p>
         </div>
-    </footer>
+    </main>
+
+    <div class="footer-nav">
+        <a href="/">🏠 Accueil</a>
+        <a href="/conseils">📊 Conseils</a>
+        <a href="/anomalies">🚨 Anomalies</a>
+        <a href="/scores">🎯 Scores</a>
+    </div>
 </body>
-  </html>
+</html>
