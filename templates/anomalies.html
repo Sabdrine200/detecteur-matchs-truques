@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
     <meta charset="UTF-8">
-    <title>Matchs arrangés - Anomalies</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #fff8f4; margin: 0; padding: 0; }
-        header { background-color: #b30000; color: white; padding: 20px; text-align: center; }
-        main { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; }
-        h1 { color: #b30000; }
-        .match { margin-bottom: 15px; padding: 15px; border-left: 5px solid #b30000; background: #fff0f0; }
-        .details { margin-left: 10px; color: #444; }
-        footer { text-align: center; padding: 10px; font-size: 13px; color: #666; }
-    </style>
+    <title>Matchs suspects 🚨</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>🚨 Matchs suspects (anomalies)</h1>
+    <header class="header-anomalies">
+        <h1>🚨 MATCHS ARRANGÉS DÉTECTÉS</h1>
         <p>Date : {{ date }}</p>
     </header>
+
     <main>
-        {% for m in anomalies %}
-            <div class="match">
-                <strong>🔎 {{ m.match }}</strong>
-                <ul class="details">
-                    {% for d in m.details %}
-                        <li>{{ d }}</li>
-                    {% endfor %}
-                </ul>
+        {% if anomalies %}
+            <div class="anomalies-liste">
+                {% for a in anomalies %}
+                    <div class="anomalie-item">
+                        <h2>⚠ Match : {{ a.match }}</h2>
+                        <p>📉 Anomalie détectée : <strong>{{ a.type }}</strong></p>
+                        <p>💬 Analyse : {{ a.commentaire }}</p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        {% else %}
+            <p style="text-align: center;">Aucun match suspect détecté pour aujourd’hui.</p>
+        {% endif %}
     </main>
+
     <footer>
-        Analyse basée sur les écarts de cotes anormaux.
+        <p>Analyse basée sur les écarts de cotes suspects | Page générée automatiquement</p>
     </footer>
 </body>
 </html>
