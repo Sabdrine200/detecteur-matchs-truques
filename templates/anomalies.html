@@ -2,71 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Matchs arrangés détectés</title>
+    <title>Matchs arrangés - Anomalies</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f4f8;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #dc3545;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-        nav {
-            background-color: #a1001a;
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        main {
-            padding: 30px;
-            text-align: center;
-        }
-        .match {
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px auto;
-            max-width: 600px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: left;
-        }
+        body { font-family: Arial, sans-serif; background: #fff8f4; margin: 0; padding: 0; }
+        header { background-color: #b30000; color: white; padding: 20px; text-align: center; }
+        main { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; }
+        h1 { color: #b30000; }
+        .match { margin-bottom: 15px; padding: 15px; border-left: 5px solid #b30000; background: #fff0f0; }
+        .details { margin-left: 10px; color: #444; }
+        footer { text-align: center; padding: 10px; font-size: 13px; color: #666; }
     </style>
 </head>
 <body>
     <header>
-        <h1>🔍 Matchs arrangés détectés</h1>
-        <p>Analyse des cotes avec anomalies</p>
+        <h1>🚨 Matchs suspects (anomalies)</h1>
+        <p>Date : {{ date }}</p>
     </header>
-
-    <nav>
-        <a href="/">Accueil</a>
-        <a href="/conseils">Conseils</a>
-        <a href="/anomalies">Matchs arrangés</a>
-        <a href="/scores">Scores exacts</a>
-    </nav>
-
     <main>
-        <h2>🚨 Anomalies détectées</h2>
-        {% for match in anomalies %}
-        <div class="match">
-            <strong>⚽ Match :</strong> {{ match.match }}<br>
-            <pre>{{ match.details }}</pre>
-        </div>
+        {% for m in anomalies %}
+            <div class="match">
+                <strong>🔎 {{ m.match }}</strong>
+                <ul class="details">
+                    {% for d in m.details %}
+                        <li>{{ d }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endfor %}
     </main>
+    <footer>
+        Analyse basée sur les écarts de cotes anormaux.
+    </footer>
 </body>
 </html>
