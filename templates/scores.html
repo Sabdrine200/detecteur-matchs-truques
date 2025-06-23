@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
     <meta charset="UTF-8">
-    <title>Scores exacts croisés</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f7ff; margin: 0; padding: 0; }
-        header { background-color: #00529B; color: white; padding: 20px; text-align: center; }
-        main { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; }
-        h1 { color: #00529B; }
-        .score { padding: 15px; margin-bottom: 15px; border-left: 5px solid #00529B; background-color: #e6f0ff; }
-        footer { text-align: center; padding: 10px; font-size: 13px; color: #666; }
-    </style>
+    <title>Scores exacts fiables 🎯</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>🎯 Scores exacts prédits par plusieurs sites</h1>
+    <header class="header-scores">
+        <h1>🎯 SCORES EXACTS PRÉDITS PAR PLUSIEURS SITES</h1>
         <p>Date : {{ date }}</p>
+        <p>Affichage des scores exacts identiques donnés par au moins 15 sites différents.</p>
     </header>
+
     <main>
-        {% for s in scores %}
-            <div class="score">
-                <strong>Match :</strong> {{ s.match }}<br>
-                <strong>Score exact :</strong> {{ s.score }}<br>
-                🔁 Prédit par <strong>{{ s.nb_sites }}</strong> sites différents
+        {% if scores %}
+            <div class="scores-liste">
+                {% for s in scores %}
+                    <div class="score-item">
+                        <h2>⚽ Match : {{ s.match }}</h2>
+                        <p>🔢 Score exact prédit : <strong>{{ s.score }}</strong></p>
+                        <p>📊 Nombre de sites ayant donné ce score : {{ s.nombre_sites }}</p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        {% else %}
+            <p style="text-align: center;">Aucun score exact fiable pour aujourd’hui.</p>
+        {% endif %}
     </main>
+
     <footer>
-        Seuls les scores confirmés par au moins 15 sites sont affichés.
+        <p>Seuls les scores exacts les plus fiables sont affichés | Données mises à jour chaque jour</p>
     </footer>
 </body>
 </html>
