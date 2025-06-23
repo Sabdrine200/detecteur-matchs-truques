@@ -36,3 +36,28 @@ footer {
     bottom: 0;
     width: 100%;
 }
+.menu-liens {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.btn-menu {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 18px;
+    text-decoration: none;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.btn-menu:hover {
+    background-color: #0056b3;
+}
