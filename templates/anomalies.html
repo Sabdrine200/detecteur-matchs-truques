@@ -2,38 +2,35 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Matchs suspects 🚨</title>
+    <title>Matchs arrangés</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body><div class="footer-nav">
-    <a href="/">🏠 Accueil</a>
-    <a href="/conseils">📊 Conseils</a>
-    <a href="/anomalies">🚨 Anomalies</a>
-    <a href="/scores">🎯 Scores</a>
-</div>
-    <header class="header-anomalies">
-        <h1>🚨 MATCHS ARRANGÉS DÉTECTÉS</h1>
-        <p>Date : {{ date }}</p>
+<body>
+    <header>
+        <h1>🚨 Matchs suspects détectés</h1>
+        <p>Basé sur des variations anormales de cotes (+0.5)</p>
     </header>
 
     <main>
         {% if anomalies %}
-            <div class="anomalies-liste">
-                {% for a in anomalies %}
-                    <div class="anomalie-item">
-                        <h2>⚠ Match : {{ a.match }}</h2>
-                        <p>📉 Anomalie détectée : <strong>{{ a.type }}</strong></p>
-                        <p>💬 Analyse : {{ a.commentaire }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% for match in anomalies %}
+                <div class="card">
+                    <h2>⚽ {{ match.nom }}</h2>
+                    {% for equipe, info in match.details.items() %}
+                        <p><strong>{{ equipe }} :</strong> {{ info }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         {% else %}
-            <p style="text-align: center;">Aucun match suspect détecté pour aujourd’hui.</p>
+            <p>Aucune anomalie détectée aujourd'hui.</p>
         {% endif %}
     </main>
 
-    <footer>
-        <p>Analyse basée sur les écarts de cotes suspects | Page générée automatiquement</p>
-    </footer>
+    <div class="footer-nav">
+        <a href="/">🏠 Accueil</a>
+        <a href="/conseils">📊 Conseils</a>
+        <a href="/anomalies">🚨 Anomalies</a>
+        <a href="/scores">🎯 Scores</a>
+    </div>
 </body>
-</html>
+                                      </html>
