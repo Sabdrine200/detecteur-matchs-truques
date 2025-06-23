@@ -5,7 +5,12 @@
     <title>Matchs suspects 🚨</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
+<body><div class="footer-nav">
+    <a href="/">🏠 Accueil</a>
+    <a href="/conseils">📊 Conseils</a>
+    <a href="/anomalies">🚨 Anomalies</a>
+    <a href="/scores">🎯 Scores</a>
+</div>
     <header class="header-anomalies">
         <h1>🚨 MATCHS ARRANGÉS DÉTECTÉS</h1>
         <p>Date : {{ date }}</p>
