@@ -1,60 +1,38 @@
-/* Style général du corps de la page */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f7fc;
-    color: #222;
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
     margin: 0;
     padding: 0;
-    font-size: 18px;
+    color: #333;
 }
 
-/* En-tête du site */
 header {
-    background-color: #003366;
+    background-color: #001f3f;
     color: white;
-    padding: 30px;
+    padding: 2rem;
     text-align: center;
-    font-size: 22px;
 }
 
-/* Contenu principal centré */
-main {
-    max-width: 1000px;
-    margin: auto;
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-top: 30px;
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-}
-
-/* Titres */
 h1 {
-    color: #003366;
-    font-size: 26px;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
-h2 {
-    color: #00529B;
-    font-size: 22px;
-    margin-top: 25px;
-}
-
-/* Boîte de contenu avec fond bleu clair */
-.conteneur {
-    padding: 15px;
-    background-color: #e6f0ff;
-    border-left: 6px solid #0077cc;
-    margin-bottom: 20px;
+.accueil-section {
+    padding: 1.5rem;
+    background-color: white;
+    margin: 1rem auto;
+    max-width: 800px;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* Pied de page */
 footer {
     text-align: center;
-    margin-top: 40px;
-    color: #555;
-    font-size: 15px;
-    padding-bottom: 30px;
-  }
+    padding: 1rem;
+    background-color: #001f3f;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
