@@ -1,3 +1,4 @@
+from scores import scores_bp
 from anomalies import anomalies_bp
 from conseils import conseils_bp
 from flask import Flask, render_template
@@ -24,3 +25,4 @@ if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
 app.register_blueprint(conseils_bp)
 app.register_blueprint(anomalies_bp)
+app.register_blueprint(scores_bp)
