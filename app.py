@@ -1,7 +1,5 @@
-from scores import scores_bp
-from anomalies import anomalies_bp
-from conseils import conseils_bp
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import json
 
 app = Flask(__name__)
 
@@ -11,18 +9,21 @@ def accueil():
 
 @app.route('/conseils')
 def conseils():
-    return render_template('conseils.html')
+    with open("data/conseils.json", "r") as f:
+        data = json.load(f)
+    return render_template("conseils.html", conseils=data)
 
 @app.route('/anomalies')
 def anomalies():
-    return render_template('anomalies.html')
+    with open("data/anomalies.json", "r") as f:
+        data = json.load(f)
+    return render_template("anomalies.html", anomalies=data)
 
 @app.route('/scores')
 def scores():
-    return render_template('scores.html')
+    with open("data/scores.json", "r") as f:
+        data = json.load(f)
+    return render_template("scores.html", scores=data)
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
-app.register_blueprint(conseils_bp)
-app.register_blueprint(anomalies_bp)
-app.register_blueprint(scores_bp)
+if __name__ == '__main__':
+    app.run(debug=True)
