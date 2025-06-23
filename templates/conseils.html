@@ -2,38 +2,34 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Conseils du jour ⚽</title>
+    <title>Conseils du jour</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body><div class="footer-nav">
-    <a href="/">🏠 Accueil</a>
-    <a href="/conseils">📊 Conseils</a>
-    <a href="/anomalies">🚨 Anomalies</a>
-    <a href="/scores">🎯 Scores</a>
-</div>
-    <header class="header-conseils">
+<body>
+    <header>
         <h1>📊 CONSEILS DU JOUR</h1>
-        <p>Date : {{ date }}</p>
+        <p>Matchs sélectionnés avec anomalies suspectes et bons profils pour +2.5 ou -2.5</p>
     </header>
 
     <main>
         {% if conseils %}
-            <div class="conseils-liste">
-                {% for c in conseils %}
-                    <div class="conseil-item">
-                        <h2>➡ Match : {{ c.match }}</h2>
-                        <p>✅ Conseil : <strong>{{ c.conseil }}</strong></p>
-                        <p>💬 Justification : {{ c.commentaire }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% for c in conseils %}
+                <div class="card">
+                    <h2>⚽ Match : {{ c.match }}</h2>
+                    <p><strong>✅ Conseil :</strong> {{ c.conseil }}</p>
+                    <p><strong>💬 Justification :</strong> {{ c.raison }}</p>
+                </div>
+            {% endfor %}
         {% else %}
-            <p style="text-align: center;">Aucun conseil disponible pour aujourd’hui.</p>
+            <p>Aucun conseil disponible aujourd'hui.</p>
         {% endif %}
     </main>
 
-    <footer>
-        <p>Page générée automatiquement | Conseils fiables uniquement</p>
-    </footer>
+    <div class="footer-nav">
+        <a href="/">🏠 Accueil</a>
+        <a href="/conseils">📊 Conseils</a>
+        <a href="/anomalies">🚨 Anomalies</a>
+        <a href="/scores">🎯 Scores</a>
+    </div>
 </body>
 </html>
