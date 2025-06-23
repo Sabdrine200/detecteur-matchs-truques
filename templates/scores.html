@@ -2,39 +2,34 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Scores exacts fiables 🎯</title>
+    <title>Scores exacts communs</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body><div class="footer-nav">
-    <a href="/">🏠 Accueil</a>
-    <a href="/conseils">📊 Conseils</a>
-    <a href="/anomalies">🚨 Anomalies</a>
-    <a href="/scores">🎯 Scores</a>
-</div>
-    <header class="header-scores">
-        <h1>🎯 SCORES EXACTS PRÉDITS PAR PLUSIEURS SITES</h1>
-        <p>Date : {{ date }}</p>
-        <p>Affichage des scores exacts identiques donnés par au moins 15 sites différents.</p>
+<body>
+    <header>
+        <h1>🎯 Scores exacts prédits par plusieurs sites</h1>
+        <p>Affiche les scores exacts les plus répétés (15 prédictions minimum)</p>
     </header>
 
     <main>
         {% if scores %}
-            <div class="scores-liste">
-                {% for s in scores %}
-                    <div class="score-item">
-                        <h2>⚽ Match : {{ s.match }}</h2>
-                        <p>🔢 Score exact prédit : <strong>{{ s.score }}</strong></p>
-                        <p>📊 Nombre de sites ayant donné ce score : {{ s.nombre_sites }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% for s in scores %}
+                <div class="card">
+                    <h2>⚽ Match : {{ s.match }}</h2>
+                    <p><strong>📌 Score commun :</strong> {{ s.score }}</p>
+                    <p><strong>🧠 Nombre de sites :</strong> {{ s.nbre_sites }} sites</p>
+                </div>
+            {% endfor %}
         {% else %}
-            <p style="text-align: center;">Aucun score exact fiable pour aujourd’hui.</p>
+            <p>Aucun score exact commun détecté aujourd’hui.</p>
         {% endif %}
     </main>
 
-    <footer>
-        <p>Seuls les scores exacts les plus fiables sont affichés | Données mises à jour chaque jour</p>
-    </footer>
+    <div class="footer-nav">
+        <a href="/">🏠 Accueil</a>
+        <a href="/conseils">📊 Conseils</a>
+        <a href="/anomalies">🚨 Anomalies</a>
+        <a href="/scores">🎯 Scores</a>
+    </div>
 </body>
 </html>
