@@ -1,43 +1,33 @@
 from flask import Flask, render_template
 import json
-import os
 
 app = Flask(__name__)
 
-@app.route('/')
-def accueil():
-    return render_template('index.html')
-
-@app.route('/conseils')
-def conseils():
+def load_json(file_path):
     try:
-        with open("static/data/conseils.json", "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception as e:
-        data = []
-        print(f"Erreur dans /conseils : {e}")
+        with open(file_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return []
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/conseils")
+def conseils():
+    data = load_json("data/conseils.json")
     return render_template("conseils.html", conseils=data)
 
-@app.route('/anomalies')
+@app.route("/anomalies")
 def anomalies():
-    try:
-        with open("static/data/anomalies.json", "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception as e:
-        data = []
-        print(f"Erreur dans /anomalies : {e}")
+    data = load_json("data/anomalies.json")
     return render_template("anomalies.html", anomalies=data)
 
-@app.route('/scores')
+@app.route("/scores")
 def scores():
-    try:
-        with open("static/data/scores.json", "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except Exception as e:
-        data = []
-        print(f"Erreur dans /scores : {e}")
+    data = load_json("data/scores.json")
     return render_template("scores.html", scores=data)
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+if __name__ == "__main__":
+    app.run(debug=True)
