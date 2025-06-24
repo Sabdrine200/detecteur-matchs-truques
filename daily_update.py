@@ -21,12 +21,9 @@ def get_matches_today():
 
 def generate_tips(matches):
     tips = []
-    if "bets" in book:
-    for bet in book["bets"]:
-        bookmakers = match.get("bookmakers", [])
-        for bookmaker in bookmakers:
-            markets = bookmaker.get("markets", [])
-            for market in markets:
+    for match in matches:
+        for bookmaker in match.get("bookmakers", []):
+            for market in bookmaker.get("markets", []):
                 if "bets" in market:
                     for bet in market["bets"]:
                         if bet.get("name") == "Over/Under 2.5":
@@ -40,14 +37,12 @@ def generate_tips(matches):
 def generate_anomalies(matches):
     anomalies = []
     for match in matches:
-        bookmakers = match.get("bookmakers", [])
-        for bookmaker in bookmakers:
-            markets = bookmaker.get("markets", [])
-            for market in markets:
+        for bookmaker in match.get("bookmakers", []):
+            for market in bookmaker.get("markets", []):
                 if "bets" in market:
                     for bet in market["bets"]:
                         odd_value = bet.get("value", 0)
-                        if odd_value > 1.5:  # Example threshold for anomaly
+                        if odd_value > 1.5:
                             anomalies.append({
                                 "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
                                 "suspect_team": bookmaker.get("title", "Unknown"),
@@ -65,7 +60,7 @@ def generate_scores(matches):
         scores.append({
             "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
             "exact_score": f"{home_goals} - {away_goals}",
-            "sites_count": 15  # Placeholder
+            "sites_count": 15
         })
     return scores
 
