@@ -21,7 +21,8 @@ def get_matches_today():
 
 def generate_tips(matches):
     tips = []
-    for match in matches:
+    if "bets" in book:
+    for bet in book["bets"]:
         bookmakers = match.get("bookmakers", [])
         for bookmaker in bookmakers:
             markets = bookmaker.get("markets", [])
