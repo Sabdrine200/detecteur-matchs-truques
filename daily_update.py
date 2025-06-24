@@ -20,14 +20,19 @@ def get_matches_today():
 def analyser_match(match):
     anomalies = []
     conseils = []
+
     try:
-        bets = match["bookmakers"][0]["bets"]
-    except (KeyError, IndexError):
+        bookmakers = match.get("bookmakers", [])
+        if not bookmakers:
+            return anomalies, conseils
+
+        bets = bookmakers[0].get("bets", [])
+    except Exception:
         return anomalies, conseils
 
     for bet in bets:
         if bet["name"] == "Match Winner":
-            for value in bet["values"]:
+            for value in bet.get("values", []):
                 try:
                     cote = float(value["odd"])
                     label = value["value"]
@@ -40,7 +45,7 @@ def analyser_match(match):
                 except:
                     continue
         elif bet["name"] == "Over/Under":
-            for value in bet["values"]:
+            for value in bet.get("values", []):
                 try:
                     if value["value"] == "Over 2.5" and float(value["odd"]) >= 2.00:
                         conseils.append({
@@ -67,7 +72,7 @@ def generer_anomalies(liste_matchs):
         toutes_anomalies.extend(anomalies)
     return toutes_anomalies
 
-# Sauvegarder les données
+# Exécution de la génération
 matches = get_matches_today()
 
 with open("data/conseils.json", "w", encoding="utf-8") as f:
