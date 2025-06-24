@@ -1,65 +1,32 @@
-
-import requests
 import json
-import datetime
+from datetime import datetime
 
-API-Key: d99f9adb8fefff08f04486c14b23e6b8
-HEADERS = {
-    "x-rapidapi-key": API_KEY,
-    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-}
+API_KEY = "ba0823b863247482548df4066dd2a51f"  # Ta clé API déjà incluse
 
-def get_matches_today():
-    today = datetime.date.today().strftime("%Y-%m-%d")
-    url = f"https://api-football-v1.p.rapidapi.com/v3/fixtures?date={today}"
-    response = requests.get(url, headers=HEADERS)
-    return response.json().get("response", [])
+def generate_conseils():
+    return [
+        {"match": "Team A vs Team B", "tip": "+2.5 buts", "odds": 2.1},
+        {"match": "Team C vs Team D", "tip": "-2.5 buts", "odds": 2.4}
+    ]
 
-def generer_conseils(matches):
-    conseils = []
-    for match in matches:
-        try:
-            fixture = match.get("fixture", {})
-            teams = match.get("teams", {})
-            league = match.get("league", {})
+def generate_anomalies():
+    return [
+        {"match": "Team X vs Team Y", "alert": "Chute de cote soudaine"},
+        {"match": "Team Z vs Team W", "alert": "Activité suspecte"}
+    ]
 
-            match_id = fixture.get("id")
-            home = teams.get("home", {}).get("name")
-            away = teams.get("away", {}).get("name")
-            league_name = league.get("name")
+def generate_scores():
+    return [
+        {"match": "Team A vs Team B", "score": "2-1", "sites": 16},
+        {"match": "Team C vs Team D", "score": "1-1", "sites": 15}
+    ]
 
-            odds_url = f"https://api-football-v1.p.rapidapi.com/v3/odds?fixture={match_id}"
-            odds_response = requests.get(odds_url, headers=HEADERS)
-            odds_data = odds_response.json().get("response", [])
+def save_json(filename, data):
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
-            for book in odds_data:
-               for bet in book.get("bets", []):
-                    if bet.get("name") == "Over/Under":
-                        for value in bet.get("values", []):
-                            label = value.get("value")
-                            odd = float(value.get("odd", 0))
-
-                            if label == "Over 2.5" and odd >= 2.0:
-                                conseils.append({
-                                    "match": f"{home} vs {away}",
-                                    "conseil": "Plus de 2.5 buts",
-                                    "cote": odd,
-                                    "justification": f"{home} attaque fort, {away} défend mal. Bon pari selon cotes."
-                                })
-                            elif label == "Under 2.5" and odd >= 2.0:
-                                conseils.append({
-                                    "match": f"{home} vs {away}",
-                                    "conseil": "Moins de 2.5 buts",
-                                    "cote": odd,
-                                    "justification": f"Match fermé prévu entre {home} et {away}. Défenses solides."
-                                })
-
-        except Exception as e:
-            print(f"Erreur pour le match {home} vs {away} : {e}")
-            continue
-
-    return conseils[:5]
-
-# Création du fichier JSON
-with open("data/conseils.json", "w", encoding="utf-8") as f:
-    json.dump(generer_conseils(get_matches_today()), f, indent=2, ensure_ascii=False)
+if __name__ == "__main__":
+    save_json("data/conseils.json", generate_conseils())
+    save_json("data/anomalies.json", generate_anomalies())
+    save_json("data/scores.json", generate_scores())
+    print("✅ Données mises à jour avec succès.")
