@@ -1,1 +1,20 @@
-<h2>Scores exacts</h2>{% if scores %}<ul>{% for s in scores %}<li>{{ s.match }} — {{ s.score }} — {{ s.sites }} sites</li>{% endfor %}</ul>{% else %}<p>Aucun score disponible.</p>{% endif %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Scores exacts</title>
+</head>
+<body>
+    <h2>Scores exacts</h2>
+    {% if scores %}
+    <ul>
+        {% for s in scores %}
+        <li>{{ s.match }} — {{ s.score }} — {{ s.sites }} sites</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun score disponible.</p>
+    {% endif %}
+    <a href="/">Retour</a>
+</body>
+</html>

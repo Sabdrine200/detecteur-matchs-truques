@@ -1,1 +1,20 @@
-<h2>Matchs suspects</h2>{% if anomalies %}<ul>{% for a in anomalies %}<li>{{ a.match }} — {{ a.alert }}</li>{% endfor %}</ul>{% else %}<p>Aucune anomalie détectée.</p>{% endif %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Matchs suspects</title>
+</head>
+<body>
+    <h2>Matchs suspects</h2>
+    {% if anomalies %}
+    <ul>
+        {% for a in anomalies %}
+        <li>{{ a.match }} — {{ a.alert }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucune anomalie détectée.</p>
+    {% endif %}
+    <a href="/">Retour</a>
+</body>
+</html>

@@ -1,1 +1,20 @@
-<h2>Conseils</h2>{% if conseils %}<ul>{% for c in conseils %}<li>{{ c.match }} — {{ c.tip }} — {{ c.odds }}</li>{% endfor %}</ul>{% else %}<p>Aucun conseil disponible.</p>{% endif %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Conseils</title>
+</head>
+<body>
+    <h2>Conseils</h2>
+    {% if conseils %}
+    <ul>
+        {% for c in conseils %}
+        <li>{{ c.match }} — {{ c.tip }} — {{ c.odds }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun conseil disponible.</p>
+    {% endif %}
+    <a href="/">Retour</a>
+</body>
+</html>
