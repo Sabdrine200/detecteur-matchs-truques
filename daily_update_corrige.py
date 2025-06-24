@@ -3,7 +3,7 @@ import requests
 import json
 import datetime
 
-API_KEY = "TA_CLE_API_ICI"  # remplace par ta vraie clé API
+API-Key: d99f9adb8fefff08f04486c14b23e6b8
 HEADERS = {
     "x-rapidapi-key": API_KEY,
     "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
