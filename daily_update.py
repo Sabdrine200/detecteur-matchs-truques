@@ -1,82 +1,77 @@
 import requests
 import json
-from datetime import datetime
-from pathlib import Path
+import datetime
 
-API_KEY = "ba0823b863247482548df4066dd2a51f"
+API_KEY = "d99f9adb8fefff08f04486c14b23e6b8"
 API_HOST = "api-football-v1.p.rapidapi.com"
-DATE_TODAY = datetime.today().strftime('%Y-%m-%d')
+BASE_URL = "https://api-football-v1.p.rapidapi.com/v3/odds"
 
 HEADERS = {
-    "x-rapidapi-host": API_HOST,
-    "x-rapidapi-key": API_KEY
+    "X-RapidAPI-Key": API_KEY,
+    "X-RapidAPI-Host": API_HOST
 }
 
 def get_matches_today():
-    url = f"https://{API_HOST}/v3/fixtures?date={DATE_TODAY}"
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    url = f"{BASE_URL}?date={today}&bookmaker=6"
     response = requests.get(url, headers=HEADERS)
-    response.raise_for_status()
-    data = response.json()
-    return data.get("response", [])
+    return response.json().get("response", [])
 
-def generate_tips(matches):
-    tips = []
-    for match in matches:
-        for bookmaker in match.get("bookmakers", []):
-            for market in bookmaker.get("markets", []):
-                if "bets" in market:
-                    for bet in market["bets"]:
-                        if bet.get("name") == "Over/Under 2.5":
-                            tips.append({
-                                "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-                                "tip": "Over 2.5 goals",
-                                "justification": "Based on real-time odds analysis"
-                            })
-    return tips
-
-def generate_anomalies(matches):
+def analyser_match(match):
     anomalies = []
-    for match in matches:
-        for bookmaker in match.get("bookmakers", []):
-            for market in bookmaker.get("markets", []):
-                if "bets" in market:
-                    for bet in market["bets"]:
-                        odd_value = bet.get("value", 0)
-                        if odd_value > 1.5:
-                            anomalies.append({
-                                "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-                                "suspect_team": bookmaker.get("title", "Unknown"),
-                                "odd_difference": odd_value,
-                                "reason": "Abnormal odds variation"
-                            })
-    return anomalies
-
-def generate_scores(matches):
-    scores = []
-    for match in matches:
-        goals = match.get("goals", {})
-        home_goals = goals.get("home", 0)
-        away_goals = goals.get("away", 0)
-        scores.append({
-            "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-            "exact_score": f"{home_goals} - {away_goals}",
-            "sites_count": 15
-        })
-    return scores
-
-def save_json(data, filename):
-    folder = Path("static/data")
-    folder.mkdir(parents=True, exist_ok=True)
-    filepath = folder / filename
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-if __name__ == "__main__":
+    conseils = []
     try:
-        matches = get_matches_today()
-        save_json(generate_tips(matches), "conseils.json")
-        save_json(generate_anomalies(matches), "anomalies.json")
-        save_json(generate_scores(matches), "scores.json")
-        print("✅ Data updated successfully:", datetime.now())
-    except Exception as e:
-        print(f"❌ Error during update: {e}")
+        bets = match["bookmakers"][0]["bets"]
+    except (KeyError, IndexError):
+        return anomalies, conseils
+
+    for bet in bets:
+        if bet["name"] == "Match Winner":
+            for value in bet["values"]:
+                try:
+                    cote = float(value["odd"])
+                    label = value["value"]
+                    if cote >= 5.0:
+                        anomalies.append({
+                            "match": f'{match["teams"]["home"]["name"]} vs {match["teams"]["away"]["name"]}',
+                            "choix": label,
+                            "cote": cote
+                        })
+                except:
+                    continue
+        elif bet["name"] == "Over/Under":
+            for value in bet["values"]:
+                try:
+                    if value["value"] == "Over 2.5" and float(value["odd"]) >= 2.00:
+                        conseils.append({
+                            "match": f'{match["teams"]["home"]["name"]} vs {match["teams"]["away"]["name"]}',
+                            "conseil": "Plus de 2.5 buts",
+                            "cote": value["odd"]
+                        })
+                except:
+                    continue
+
+    return anomalies, conseils
+
+def generer_conseils(liste_matchs):
+    tous_conseils = []
+    for match in liste_matchs:
+        _, conseils = analyser_match(match)
+        tous_conseils.extend(conseils)
+    return tous_conseils[:5]
+
+def generer_anomalies(liste_matchs):
+    toutes_anomalies = []
+    for match in liste_matchs:
+        anomalies, _ = analyser_match(match)
+        toutes_anomalies.extend(anomalies)
+    return toutes_anomalies
+
+# Sauvegarder les données
+matches = get_matches_today()
+
+with open("data/conseils.json", "w", encoding="utf-8") as f:
+    json.dump(generer_conseils(matches), f, indent=2, ensure_ascii=False)
+
+with open("data/anomalies.json", "w", encoding="utf-8") as f:
+    json.dump(generer_anomalies(matches), f, indent=2, ensure_ascii=False)
