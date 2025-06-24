@@ -1,35 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Conseils du jour</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>📊 CONSEILS DU JOUR</h1>
-        <p>Matchs sélectionnés avec anomalies suspectes et bons profils pour +2.5 ou -2.5</p>
-    </header>
-
-    <main>
-        {% if conseils %}
-            {% for c in conseils %}
-                <div class="card">
-                    <h2>⚽ Match : {{ c.match }}</h2>
-                    <p><strong>✅ Conseil :</strong> {{ c.conseil }}</p>
-                    <p><strong>💬 Justification :</strong> {{ c.raison }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Aucun conseil disponible aujourd'hui.</p>
-        {% endif %}
-    </main>
-
-    <div class="footer-nav">
-        <a href="/">🏠 Accueil</a>
-        <a href="/conseils">📊 Conseils</a>
-        <a href="/anomalies">🚨 Anomalies</a>
-        <a href="/scores">🎯 Scores</a>
-    </div>
-</body>
-</html>
+<h2>Conseils Over/Under</h2>
+{% if conseils %}
+<ul>
+  {% for c in conseils %}
+    <li>{{ c.match }} — {{ c.tip }} — {{ c.odds }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Aucun conseil aujourd’hui.</p>
+{% endif %}
+<a href="/">Retour</a>
