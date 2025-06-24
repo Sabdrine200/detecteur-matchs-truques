@@ -2,28 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Détecteur de matchs truqués</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Accueil</title>
 </head>
 <body>
-    <header>
-        <h1>🎯 Bienvenue sur le détecteur de matchs truqués</h1>
-        <p>Analyse automatique des matchs suspects et des scores exacts les plus probables.</p>
-    </header>
-
-    <main>
-        <div class="card">
-            <p>🔍 Notre système détecte les matchs suspects à partir des écarts de cotes sur des dizaines de sites.</p>
-            <p>📊 Il génère des conseils sur +2.5 / -2.5 buts selon les comportements anormaux.</p>
-            <p>🎯 Il affiche aussi les scores exacts quand plusieurs sites donnent la même prédiction.</p>
-        </div>
-    </main>
-
-    <div class="footer-nav">
-        <a href="/">🏠 Accueil</a>
-        <a href="/conseils">📊 Conseils</a>
-        <a href="/anomalies">🚨 Anomalies</a>
-        <a href="/scores">🎯 Scores</a>
-    </div>
+    <h1>Bienvenue sur le détecteur de matchs truqués</h1>
+    <ul>
+        <li><a href="/conseils">Conseils Over/Under</a></li>
+        <li><a href="/anomalies">Matchs truqués</a></li>
+        <li><a href="/scores">Scores exacts</a></li>
+    </ul>
 </body>
 </html>
