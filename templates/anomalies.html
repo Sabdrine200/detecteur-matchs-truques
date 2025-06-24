@@ -1,36 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Matchs arrangés</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <header>
-        <h1>🚨 Matchs suspects détectés</h1>
-        <p>Basé sur des variations anormales de cotes (+0.5)</p>
-    </header>
-
-    <main>
-        {% if anomalies %}
-            {% for match in anomalies %}
-                <div class="card">
-                    <h2>⚽ {{ match.nom }}</h2>
-                    {% for equipe, info in match.details.items() %}
-                        <p><strong>{{ equipe }} :</strong> {{ info }}</p>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Aucune anomalie détectée aujourd'hui.</p>
-        {% endif %}
-    </main>
-
-    <div class="footer-nav">
-        <a href="/">🏠 Accueil</a>
-        <a href="/conseils">📊 Conseils</a>
-        <a href="/anomalies">🚨 Anomalies</a>
-        <a href="/scores">🎯 Scores</a>
-    </div>
-</body>
-                                      </html>
+<h2>Matchs suspects</h2>
+{% if anomalies %}
+<ul>
+  {% for a in anomalies %}
+    <li>{{ a.match }} — {{ a.alert }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Aucune anomalie aujourd’hui.</p>
+{% endif %}
+<a href="/">Retour</a>
