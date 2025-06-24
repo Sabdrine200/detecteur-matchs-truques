@@ -19,25 +19,24 @@ def get_matches_today():
     data = response.json()
     return data.get("response", [])
 
-def generer_conseils(matches):
-    conseils = []
+def generate_tips(matches):
+    tips = []
     for match in matches:
-        # Exemple: on va lire les bookmakers, marchés et bets
         bookmakers = match.get("bookmakers", [])
         for bookmaker in bookmakers:
             markets = bookmaker.get("markets", [])
             for market in markets:
                 if "bets" in market:
                     for bet in market["bets"]:
-                        if bet.get("name") == "Plus de 2.5 buts":
-                            conseils.append({
+                        if bet.get("name") == "Over/Under 2.5":
+                            tips.append({
                                 "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-                                "conseil": "Plus de 2.5 buts",
-                                "justification": "Analyse des cotes en temps réel"
+                                "tip": "Over 2.5 goals",
+                                "justification": "Based on real-time odds analysis"
                             })
-    return conseils
+    return tips
 
-def generer_anomalies(matches):
+def generate_anomalies(matches):
     anomalies = []
     for match in matches:
         bookmakers = match.get("bookmakers", [])
@@ -46,42 +45,42 @@ def generer_anomalies(matches):
             for market in markets:
                 if "bets" in market:
                     for bet in market["bets"]:
-                        # Exemple d'anomalie fictive
-                        ecart_cote = bet.get("value", 0)
-                        if ecart_cote > 1.5:
+                        odd_value = bet.get("value", 0)
+                        if odd_value > 1.5:  # Example threshold for anomaly
                             anomalies.append({
                                 "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-                                "equipe_suspecte": bookmaker.get("title", "Inconnu"),
-                                "ecart_cote": ecart_cote,
-                                "raison": "Variation de cote anormale"
+                                "suspect_team": bookmaker.get("title", "Unknown"),
+                                "odd_difference": odd_value,
+                                "reason": "Abnormal odds variation"
                             })
     return anomalies
 
-def generer_scores(matches):
+def generate_scores(matches):
     scores = []
     for match in matches:
-        score_home = match.get("goals", {}).get("home", 0)
-        score_away = match.get("goals", {}).get("away", 0)
+        goals = match.get("goals", {})
+        home_goals = goals.get("home", 0)
+        away_goals = goals.get("away", 0)
         scores.append({
             "match": f"{match['teams']['home']['name']} vs {match['teams']['away']['name']}",
-            "score_exact": f"{score_home} - {score_away}",
-            "nombre_sites": 15  # Par défaut, fictif
+            "exact_score": f"{home_goals} - {away_goals}",
+            "sites_count": 15  # Placeholder
         })
     return scores
 
-def sauvegarder_json(data, nom_fichier):
-    dossier = Path("static/data")
-    dossier.mkdir(parents=True, exist_ok=True)
-    chemin = dossier / nom_fichier
-    with open(chemin, "w", encoding="utf-8") as f:
+def save_json(data, filename):
+    folder = Path("static/data")
+    folder.mkdir(parents=True, exist_ok=True)
+    filepath = folder / filename
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 if __name__ == "__main__":
     try:
         matches = get_matches_today()
-        sauvegarder_json(generer_conseils(matches), "conseils.json")
-        sauvegarder_json(generer_anomalies(matches), "anomalies.json")
-        sauvegarder_json(generer_scores(matches), "scores.json")
-        print("✅ Données mises à jour avec succès :", datetime.now())
+        save_json(generate_tips(matches), "conseils.json")
+        save_json(generate_anomalies(matches), "anomalies.json")
+        save_json(generate_scores(matches), "scores.json")
+        print("✅ Data updated successfully:", datetime.now())
     except Exception as e:
-        print(f"❌ Erreur lors de la mise à jour : {e}")
+        print(f"❌ Error during update: {e}")
