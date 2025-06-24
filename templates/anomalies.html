@@ -1,11 +1,1 @@
-<h2>Matchs suspects</h2>
-{% if anomalies %}
-<ul>
-  {% for a in anomalies %}
-    <li>{{ a.match }} — {{ a.alert }}</li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>Aucune anomalie aujourd’hui.</p>
-{% endif %}
-<a href="/">Retour</a>
+<h2>Matchs suspects</h2>{% if anomalies %}<ul>{% for a in anomalies %}<li>{{ a.match }} — {{ a.alert }}</li>{% endfor %}</ul>{% else %}<p>Aucune anomalie détectée.</p>{% endif %}
