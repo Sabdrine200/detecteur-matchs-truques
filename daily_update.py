@@ -1,4 +1,3 @@
-
 import json
 import requests
 from datetime import datetime
@@ -16,7 +15,12 @@ def get_matches():
     url = "https://api-football-v1.p.rapidapi.com/v3/odds"
     params = {"date": TODAY, "bet": "Over/Under"}
     res = requests.get(url, headers=HEADERS, params=params)
-    return res.json().get("response", []) if res.status_code == 200 else []
+    if res.status_code == 200:
+        print(f"✅ Réponse API reçue ({len(res.json().get('response', []))} matchs)")
+        return res.json().get("response", [])
+    else:
+        print(f"❌ Erreur API : {res.status_code}")
+        return []
 
 def generer_conseils(matches):
     conseils = []
@@ -24,17 +28,28 @@ def generer_conseils(matches):
         home = match.get("teams", {}).get("home", {}).get("name", "")
         away = match.get("teams", {}).get("away", {}).get("name", "")
         match_name = f"{home} vs {away}"
+
+        found = False
         for book in match.get("bookmakers", []):
             for bet in book.get("bets", []):
                 if bet.get("name") != "Over/Under":
                     continue
                 for value in bet.get("values", []):
-                    if value.get("value") == "Over 2.5" and float(value.get("odd", 0)) >= 2.0:
-                        conseils.append({
-                            "match": match_name,
-                            "tip": "Over 2.5",
-                            "odds": value["odd"]
-                        })
+                    if "Over 2.5" in value.get("value", ""):
+                        print(f"{match_name} ➤ {value.get('value')} à {value.get('odd')}")
+                        try:
+                            if float(value.get("odd")) >= 2.0:
+                                conseils.append({
+                                    "match": match_name,
+                                    "tip": value["value"],
+                                    "odds": value["odd"]
+                                })
+                                found = True
+                        except:
+                            continue
+        if not found:
+            print(f"⚠️ {match_name} : aucun Over 2.5 avec cote ≥ 2.0")
+
     return conseils
 
 def generer_anomalies(matches):
@@ -62,15 +77,19 @@ def save(name, data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 if __name__ == "__main__":
-    print("🔁 Chargement des matchs...")
+    print("🔁 Chargement des matchs du jour...")
     matches = get_matches()
-    print(f"✔️ {len(matches)} matchs chargés")
+    print(f"📊 Total matchs reçus : {len(matches)}")
 
     conseils = generer_conseils(matches)
     anomalies = generer_anomalies(matches)
     scores = generer_scores_fictifs(matches)
 
+    print(f"✅ {len(conseils)} conseils générés")
+    print(f"✅ {len(anomalies)} anomalies détectées")
+    print(f"✅ {len(scores)} scores exacts générés")
+
     save("conseils", conseils)
     save("anomalies", anomalies)
     save("scores", scores)
-    print("✅ Données enregistrées.")
+    print("💾 Données enregistrées avec succès.")
