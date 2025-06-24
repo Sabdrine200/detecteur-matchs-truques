@@ -33,7 +33,7 @@ def generer_conseils(matches):
             odds_data = odds_response.json().get("response", [])
 
             for book in odds_data:
-                for bet in book.get("bets", []):
+               for bet in book.get("bets", []):
                     if bet.get("name") == "Over/Under":
                         for value in bet.get("values", []):
                             label = value.get("value")
